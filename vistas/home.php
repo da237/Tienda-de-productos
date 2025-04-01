@@ -29,9 +29,12 @@
 include_once "../conexion/bdconexion.php";
 
 try {
-    $query =$conn->query("SELECT * FROM articulos");
-    $articulos=$query->fetchAll(PDO::FETCH_ASSOC);
+    $query = $conn->query("SELECT a.*, c.nombre AS categoria
+    FROM articulos a
+    LEFT JOIN categoria c ON a.categoria = c.id");
+    $articulos = $query->fetchAll(PDO::FETCH_ASSOC);
 } catch (\Throwable $th) {
+    echo "Error al obtener los articulos" . $th->getMessage();
     error_log("Error al obtener los articulos" . $th->getMessage());
     echo "Error al obtener los articulos";
     die();
@@ -57,16 +60,17 @@ try {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($articulos as $articulo)?>
-            <tr>
-                <td><?=$articulo['codigo']?></td>
-                <td><?=$articulo['nombre']?></td>
-                <td><?=$articulo['categoria']?></td>
-                <td><?=$articulo['descripcion']?></td>
-                <td><?=$articulo['cantidad']?></td>
-                <td><a href=""></a>Eliminar</td>
-                <td><a href=""></a>Editar</td>
-            </tr>
+            <?php foreach ($articulos as $articulo): ?>
+                <tr>
+                    <td><?= $articulo['codigo'] ?></td>
+                    <td><?= $articulo['nombre'] ?></td>
+                    <td><?= $articulo['categoria'] ?></td>
+                    <td><?= $articulo['descripcion'] ?></td>
+                    <td><?= $articulo['cantidad'] ?></td>
+                    <td><a href="../php/eliminar.php?codigo=<?=$articulo['codigo']?>"onclick="return confirm('Esta seguro de eliminar el producto')">Eliminar</a></td>
+                    <td><a href="">Editar</a></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
 
