@@ -68,7 +68,7 @@ try {
                     <td><?= $articulo['descripcion'] ?></td>
                     <td><?= $articulo['cantidad'] ?></td>
                     <td><a href="../php/eliminar.php?codigo=<?=$articulo['codigo']?>"onclick="return confirm('Esta seguro de eliminar el producto')">Eliminar</a></td>
-                    <td><a href="">Editar</a></td>
+                    <td><a href="edit.php?codigo=<?=$articulo['codigo']?>">Editar</a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
